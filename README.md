@@ -909,4 +909,34 @@ This project explores the alignment of a small language model ([Qwen3-0.6B](http
 - **Emoji Style & Effect** shows how “human” and “emoji-friendly” the model output is.
 - **Limitations & Issues** focus on weak spots of each data/strategy—too formulaic, loss of long-content, overly chatty, etc.
 - **Typical Example** lets you copy-paste and see model difference instantly.
-- All dataset sizes are approximate.
+- All dataset sizes are approximate.  
+
+## 🛑 Limitations & Future Work
+
+Despite the promising improvements in friendliness and emoji usage achieved by our DPO-aligned Qwen3-0.6B models, several limitations remain, largely stemming from data properties, task diversity, and the inherent constraints of small language models.
+
+### 1. **Limited Data and Task Diversity**
+- **Coverage Gaps:** Although we leveraged multi-source datasets (ShareGPT, Alpaca, GPT synthetic, task mergers) and advanced scripts for diverse and refined pair construction, the training data still covers a relatively narrow slice of real-world tasks. The majority of cases are single-turn, with limited representation of long or highly complex, multi-step instructions.
+- **Question/Response Length:** There is limited evidence—supported by test case failures—that both longer input queries and contexts requiring long, multi-sentence outputs degrade model performance, especially for maintaining coherent and contextually appropriate emoji insertion.
+- **Stylistic Rigidity:** Rule-based and prompt-based emoji insertion provides some diversity, but can introduce rigidity; the model sometimes overuses, underuses, or places emojis unnaturally, especially in tasks unseen during training.
+
+### 2. **Synthetic Data Limitations**
+- **Prompt Bias:** For GPT-generated data, the stylistic diversity of responses is inevitably shaped by the prompt design, risking both overfitting and coverage gaps for edge cases or less common dialogues.
+- **Manual Auditing:** Although bad/outlier samples were filtered to some extent, fully automated screening cannot catch all subtle errors or inconsistencies in data, as observed in the bad sample logs.
+
+### 3. **Model Limitations**
+- **Small Model Capacity:** As a 600M-parameter model, Qwen3-0.6B has limited context retention and can struggle with chaining multiple requirements (e.g. answering with both accuracy and nuanced emoji style in lengthy/expert-domain queries).
+- **Generalization:** While the merged datasets improve generalization, there is still a notable bias toward shorter, instruction-oriented prompts compared to open-ended or conversational settings.
+
+### 4. **Evaluation Limitations**
+- **Test Coverage:** The existing test cases ([test_cases_results.md](./test_cases_results.md)) provide good insight into typical user queries but are not exhaustive. Many domains and edge cases (e.g., code, scientific Q&A, extended story generation) are underrepresented.
+
+---
+
+### **Future Improvement Directions**
+
+- **Data Expansion:** Broaden data generation to include more open-ended, multi-turn and long-form tasks, as well as richer domain coverage (medical, code, conversational storytelling, etc).
+- **Advanced Emoji Strategies:** Introduce smarter, context-aware emoji augmentation—possibly via GPT-4 or filtered crowdsourcing—to reduce rigidity and "emoji spam."
+- **Model Scaling:** Experiment with larger base models or further layer-unfreezing for enhanced context understanding in complex instructions.
+- **Human Evaluation:** Incorporate systematic human feedback, especially for nuanced friendliness and factual accuracy in diverse test scenarios.
+- **Dynamic Testing:** Establish continuous and diverse task evaluation pipelines, covering not just friendliness/emoji but also factuality and coherence.
