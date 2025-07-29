@@ -43,11 +43,21 @@ This project explores the alignment of a small language model ([Qwen3-0.6B](http
 ### Run the training script
 - Training with transformers dpo framework
    
-```bash train/run_train_dpo_transformers.sh```  
+```
+#Set output_dir to your own model save directory
+#Set --train_file to your data file path
+#Set --model_name to your pretrained model path   
+bash train/run_train_dpo_transformers.sh
+```  
 
 - Training with custom dpo
 
-```bash train/run_train_dpo_custom.sh```  
+```
+#Set output_dir to your own model save directory
+#Set --train_file to your data file path
+#Set --model_name to your pretrained model path 
+bash train/run_train_dpo_custom.sh
+```  
 
 
   
