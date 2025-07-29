@@ -15,7 +15,7 @@ export NCCL_P2P_DISABLE=0
 export NCCL_IB_CUDA_SUPPORT=1
 export NCCL_DEBUG=INFO
 
-OUTPUT_DIR=/nfs-151/disk6/townswu/exp/output/save/DPO/Qwen/Qwen3_1_6B/emoji-checkpoint-via-transformers
+OUTPUT_DIR=/nfs-151/disk6/townswu/exp/output/save/DPO/Qwen/Qwen3_1_6B/emoji-checkpoint-via-transformers_sharegpt_simple
 if [ ! -d "$OUTPUT_DIR" ]; then
   mkdir -p "$OUTPUT_DIR"
 fi
@@ -41,8 +41,9 @@ pip uninstall apex -y
 pip list
 
 cd /nfs-151/disk8/townswu/codes/qwen3_emoji_dpo/
-BATCH_SIZE=32
-EPOCH=2
+BATCH_SIZE=4
+EPOCH=1
+GPUS=2
 torchrun \
   --nnodes=$WORLD_SIZE \
   --node_rank=$NODE_RANK \
@@ -50,13 +51,13 @@ torchrun \
   --nproc_per_node=$GPUS \
   --master_port=${MASTER_PORT} \
   ./train/train_dpo_transformers.py \
-  --train_file /nfs-151/disk8/townswu/codes/qwen3_emoji_dpo/data/dpo_emoji_english_withgpt.jsonl \
+  --train_file /nfs-151/disk8/townswu/codes/qwen3_emoji_dpo/data/dpo_emoji_english_sharegpt_simple.jsonl \
   --model_name /nfs-151/disk6/townswu/pretrained_models/Qwen/Qwen3-0.6B \
   --output_dir ${OUTPUT_DIR} \
   --batch_size ${BATCH_SIZE} \
   --epochs ${EPOCH} \
   --gradient_accumulation_steps 1 \
-  --lr 1e-5 \
+  --lr 5e-6 \
   --bf16 \
   --report_to "tensorboard" \
   2>&1 | tee -a "${OUTPUT_DIR}/training_log.txt"
