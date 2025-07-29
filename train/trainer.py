@@ -8,7 +8,7 @@ class CustomDPOTrainer(Trainer):
         self.beta = beta
         self.ref_model.eval()
 
-    def compute_loss(self, model, inputs, return_outputs=False):
+    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
         """
         inputs dict，
         - chosen_input_ids, chosen_attention_mask
