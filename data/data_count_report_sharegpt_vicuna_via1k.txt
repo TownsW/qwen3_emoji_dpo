@@ -1,0 +1,9 @@
+
+Emoji coverage types: 2
+Emoji usages: ['💪', '😂']
+Emoji count distribution: {0: 838, 1: 2}
+Avg reply word count: 88.15
+Story samples: 9
+Multi-round/long: 676
+Question type distribution: {'how': 96, 'tell': 17, 'what': 119, 'why': 15, 'give': 51, 'write': 95, 'create': 25, 'suggest': 14, 'recommend': 3}
+Reply length types: {'长回复': 692, '短回复': 75, '中回复': 73}
