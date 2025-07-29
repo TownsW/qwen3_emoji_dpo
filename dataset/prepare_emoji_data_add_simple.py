@@ -9,9 +9,6 @@ from datasets import load_dataset
 # ---------------------
 from openai import OpenAI
 
-client = OpenAI(
-    api_key="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",
-)
 
 # ---------------------
 # 参数
