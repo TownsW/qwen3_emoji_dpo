@@ -8,7 +8,7 @@ from collections import Counter, defaultdict
 from openai import OpenAI
 
 # ======== OpenAI API设置 ========
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="xxx")
 
 # ======== 参数 ========
 dataset_name = "penfever/sharegpt-vicuna-clean"
