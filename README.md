@@ -35,8 +35,22 @@ This project explores the alignment of a small language model ([Qwen3-0.6B](http
 - We show how specialized alignment training with DPO can meaningfully modify even small LLMs such as Qwen3-0.6B for friendliness and emoji personality.
 - All code, datasets, and model checkpoints are shared for reproducibility.
 - This workflow provides a template for other "vertical" fine-tunings—injecting specific stylistic traits via data-driven preference learning.
+  
+
+## 🛠️ Usage
+### Installation
+```pip install -r requirements.txt```
+### Run the training script
+- Training with transformers dpo framework
+   
+```bash train/run_train_dpo_transformers.sh```  
+
+- Training with custom dpo
+
+```bash train/run_train_dpo_custom.sh```  
 
 
+  
 ## 🤗 Model & Data
 | Model Name                                   | Model Link                                                                                                                        | Training Data Filename                                | Dataset Link                                                                                                                       | Source / Composition          | Quantity | Data Generation Script                 | Data Generation Strategy                                                                                           |
 |-----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|----------|----------------------------------------|-------------------------------------------------------------------------------------------------------------------|
