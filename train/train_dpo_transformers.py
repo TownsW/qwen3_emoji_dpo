@@ -4,7 +4,7 @@ import argparse
 from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments
 from trl import DPOTrainer, DPOConfig
-
+import torch
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", type=str, default="Qwen/Qwen3-0.6B")
@@ -15,8 +15,8 @@ def main():
     parser.add_argument("--lr", type=float, default=1e-5)
     parser.add_argument("--logging_steps", type=int, default=5)
     parser.add_argument("--gradient_accumulation_steps", type=int, default=2)
-    parser.add_argument("--max_length", type=int, default=1024)
-    parser.add_argument("--beta", type=float, default=0.1)
+    parser.add_argument("--max_length", type=int, default=8196)
+    parser.add_argument("--beta", type=float, default=0.2)
     parser.add_argument("--fp16", action='store_true')
     parser.add_argument("--bf16", action='store_true')
     parser.add_argument("--save_strategy", type=str, default="epoch")
@@ -31,7 +31,7 @@ def main():
 
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_name, trust_remote_code=True)
-    model = AutoModelForCausalLM.from_pretrained(args.model_name, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(args.model_name, trust_remote_code=True, torch_dtype=torch.bfloat16)
 
     # 数据集加载
     dataset = load_dataset("json", data_files={"train": args.train_file})["train"]
@@ -44,8 +44,8 @@ def main():
         logging_steps=args.logging_steps,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         max_length=args.max_length,
-        fp16=args.fp16,
-        bf16=args.bf16,
+        #fp16=args.fp16,
+        bf16=True,
         report_to=args.report_to.split(',') if args.report_to else [],
         ddp_find_unused_parameters=False,  # DDP常用设置
         save_strategy = args.save_strategy,
