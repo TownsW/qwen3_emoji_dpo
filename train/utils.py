@@ -25,14 +25,14 @@ class DPOPairDataset(Dataset):
         # tokenize prompt、chosen、rejected
         example = self.data[idx]
         prompt = self.tokenizer.apply_chat_template(example["prompt"], tools=None, tokenize=False, add_generation_prompt=True)
-        prompt_toks = self.tokenizer(prompt, truncation=True, max_length=self.max_len, return_tensors='pt', add_special_tokens=False)
+        prompt_toks = self.tokenizer(prompt, truncation=True, max_length=self.max_len, return_tensors='pt', add_special_tokens=False) # don't add eos_token
         prompt_length = prompt_toks["input_ids"].size(1)
 
         # 拼接full
         chosen_text = self.tokenizer.apply_chat_template(example["prompt"] + example["chosen"], tools=None, tokenize=False)
         rejected_text = self.tokenizer.apply_chat_template(example["prompt"] + example["rejected"], tools=None, tokenize=False)
-        chosen = self.tokenizer(chosen_text, truncation=True, max_length=self.max_len, return_tensors='pt', add_special_tokens=False)
-        rejected = self.tokenizer(rejected_text, truncation=True, max_length=self.max_len, return_tensors='pt', add_special_tokens=False)
+        chosen = self.tokenizer(chosen_text, truncation=True, max_length=self.max_len, return_tensors='pt', add_special_tokens=True)
+        rejected = self.tokenizer(rejected_text, truncation=True, max_length=self.max_len, return_tensors='pt', add_special_tokens=True)
         chosen = {k:v.squeeze(0) for k,v in chosen.items()}
         rejected = {k:v.squeeze(0) for k,v in rejected.items()}
 
