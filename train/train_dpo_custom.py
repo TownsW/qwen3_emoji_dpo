@@ -36,6 +36,7 @@ def main():
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_name, trust_remote_code=True)
     model = AutoModelForCausalLM.from_pretrained(args.model_name, trust_remote_code=True, torch_dtype=torch.bfloat16)
+    ref_model = AutoModelForCausalLM.from_pretrained(args.model_name, trust_remote_code=True, torch_dtype=torch.bfloat16)
 
     # 数据集加载
     #dataset = load_dataset("json", data_files={"train": args.train_file})["train"]
@@ -61,7 +62,7 @@ def main():
 
     trainer = CustomDPOTrainer(
         model=model,
-        ref_model=model,
+        ref_model=ref_model,
         args=dpo_config,
         train_dataset=dataset,
         data_collator=dpo_collate
